@@ -11,7 +11,7 @@ public class TestAdditionalFeePeriod {
 
     private static final int NOT_CONTAINED_HOUR = 19;
     private static final int ANY_MINUTE = 1;
-    private static final int START_HOUR = 0;
+    private static final int START_HOUR = 3;
     private static final int END_HOUR = START_HOUR + 5;
     private static final int ZERO_MINUTE = 0;
     Runnable ifTrue = mock(Runnable.class);
@@ -36,6 +36,13 @@ public class TestAdditionalFeePeriod {
         period(START_HOUR, END_HOUR).contains(dateWithTime(START_HOUR + 1, ZERO_MINUTE), ifTrue, ifFalse);
 
         verifyIfTrueRun();
+    }
+
+    @Test
+    public void date_time_early_than_start_time_not_in_period() {
+        period(START_HOUR, END_HOUR).contains(dateWithTime(START_HOUR - 1, ZERO_MINUTE), ifTrue, ifFalse);
+
+        verifyIfFalseRun();
     }
 
     private AdditionalFeePeriod period(int startHour, int endHour) {

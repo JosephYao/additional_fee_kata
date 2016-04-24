@@ -11,13 +11,13 @@ public class AdditionalFeePeriod {
     }
 
     public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
-        if (timeOfDate(dateTime).equals(start) || timeOfDate(dateTime).isBefore(end))
+        if (timeOf(dateTime).equals(start) || timeOf(dateTime).isBefore(end) && timeOf(dateTime).isAfter(start))
             ifTrue.run();
         else
             ifFalse.run();
     }
 
-    private LocalTime timeOfDate(LocalDateTime dateTime) {
+    private LocalTime timeOf(LocalDateTime dateTime) {
         return dateTime.toLocalTime();
     }
 }
