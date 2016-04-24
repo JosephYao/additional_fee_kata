@@ -5,7 +5,7 @@ public class AdditionalFeePeriod {
     public AdditionalFeePeriod(LocalTime start, LocalTime end) {
     }
 
-    public void contains(LocalDateTime dateTime, Runnable ifFalse) {
+    public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
         ifFalse.run();
     }
 }
