@@ -9,8 +9,6 @@ import static org.mockito.Mockito.verify;
 
 public class TestAdditionalFeePeriod {
 
-    private static final int NOT_CONTAINED_HOUR = 19;
-    private static final int ANY_MINUTE = 1;
     private static final int START_HOUR = 3;
     private static final int END_HOUR = START_HOUR + 5;
     private static final int ZERO_MINUTE = 0;
@@ -18,8 +16,8 @@ public class TestAdditionalFeePeriod {
     Runnable ifFalse = mock(Runnable.class);
 
     @Test
-    public void not_in_period() {
-        period(START_HOUR, END_HOUR).contains(dateWithTime(NOT_CONTAINED_HOUR, ANY_MINUTE), ifTrue, ifFalse);
+    public void date_time_later_than_end_time_not_in_period() {
+        period(START_HOUR, END_HOUR).contains(dateWithTime(END_HOUR + 1, ZERO_MINUTE), ifTrue, ifFalse);
 
         verifyIfFalseRun();
     }

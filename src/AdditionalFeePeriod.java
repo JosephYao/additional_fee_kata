@@ -1,3 +1,4 @@
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -11,10 +12,18 @@ public class AdditionalFeePeriod {
     }
 
     public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
-        if (timeOf(dateTime).equals(start) || timeOf(dateTime).isBefore(end) && timeOf(dateTime).isAfter(start))
-            ifTrue.run();
-        else
+        if (isEarlierThanStart(dateTime) || isLaterThanEnd(dateTime))
             ifFalse.run();
+        else
+            ifTrue.run();
+    }
+
+    private boolean isLaterThanEnd(LocalDateTime dateTime) {
+        return Duration.between(timeOf(dateTime), end).isNegative();
+    }
+
+    private boolean isEarlierThanStart(LocalDateTime dateTime) {
+        return Duration.between(start, timeOf(dateTime)).isNegative();
     }
 
     private LocalTime timeOf(LocalDateTime dateTime) {
