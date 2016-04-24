@@ -12,14 +12,14 @@ public class AdditionalFeePeriod {
     }
 
     public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
-        if (isEarlierThanStart(dateTime) || isLaterThanEnd(dateTime))
+        if (isEarlierThanStart(dateTime) || isLaterThanOrEqualEnd(dateTime))
             ifFalse.run();
         else
             ifTrue.run();
     }
 
-    private boolean isLaterThanEnd(LocalDateTime dateTime) {
-        return Duration.between(timeOf(dateTime), end).isNegative();
+    private boolean isLaterThanOrEqualEnd(LocalDateTime dateTime) {
+        return !Duration.between(end, timeOf(dateTime)).isNegative();
     }
 
     private boolean isEarlierThanStart(LocalDateTime dateTime) {
