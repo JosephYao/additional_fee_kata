@@ -14,11 +14,6 @@ public class AdditionalFeePeriod {
     }
 
     public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
-        if (overDay && !isEarlierThanStart(dateTime)) {
-            ifTrue.run();
-            return;
-        }
-
         if (!overDay && isEarlierThanStart(dateTime) || isLaterThanOrEqualEnd(dateTime))
             ifFalse.run();
         else
