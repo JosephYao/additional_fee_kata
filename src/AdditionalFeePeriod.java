@@ -5,14 +5,21 @@ import java.time.LocalTime;
 public class AdditionalFeePeriod {
     private final LocalTime start;
     private final LocalTime end;
+    private final boolean overDay;
 
     public AdditionalFeePeriod(LocalTime start, LocalTime end) {
         this.start = start;
         this.end = end;
+        this.overDay = Duration.between(start, end).isNegative();
     }
 
     public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
-        if (isEarlierThanStart(dateTime) || isLaterThanOrEqualEnd(dateTime))
+        if (overDay && !isEarlierThanStart(dateTime)) {
+            ifTrue.run();
+            return;
+        }
+
+        if (!overDay && isEarlierThanStart(dateTime) || isLaterThanOrEqualEnd(dateTime))
             ifFalse.run();
         else
             ifTrue.run();
