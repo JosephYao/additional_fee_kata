@@ -14,18 +14,27 @@ public class AdditionalFeePeriod {
     }
 
     public void contains(LocalDateTime dateTime, Runnable ifTrue, Runnable ifFalse) {
-        if (!overDay && isEarlierThanStart(dateTime) || isLaterThanOrEqualEnd(dateTime))
-            ifFalse.run();
-        else
+        if (isSameDayContained(dateTime) || isOverDayContained(dateTime))
             ifTrue.run();
+        else
+            ifFalse.run();
     }
 
-    private boolean isLaterThanOrEqualEnd(LocalDateTime dateTime) {
-        return !Duration.between(end, timeOf(dateTime)).isNegative();
+    private boolean isSameDayContained(LocalDateTime dateTime) {
+        return isLaterThanOrEqualStart(dateTime) && isEarlierThanEnd(dateTime);
     }
 
-    private boolean isEarlierThanStart(LocalDateTime dateTime) {
-        return Duration.between(start, timeOf(dateTime)).isNegative();
+    private boolean isOverDayContained(LocalDateTime dateTime) {
+        return overDay && (isLaterThanOrEqualStart(dateTime) ||
+                isEarlierThanEnd(dateTime));
+    }
+
+    private boolean isEarlierThanEnd(LocalDateTime dateTime) {
+        return Duration.between(end, timeOf(dateTime)).isNegative();
+    }
+
+    private boolean isLaterThanOrEqualStart(LocalDateTime dateTime) {
+        return !Duration.between(start, timeOf(dateTime)).isNegative();
     }
 
     private LocalTime timeOf(LocalDateTime dateTime) {

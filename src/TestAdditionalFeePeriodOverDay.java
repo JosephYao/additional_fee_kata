@@ -27,5 +27,12 @@ public class TestAdditionalFeePeriodOverDay {
 
         period.verifyIfFalseRun();
     }
+    
+    @Test
+    public void date_time_later_than_start_time_and_in_previous_day() {
+        period.containsWithIfTrueAndIfFalse(START_HOUR + 1);
+
+        period.verifyIfTrueRun();
+    }
 
 }
